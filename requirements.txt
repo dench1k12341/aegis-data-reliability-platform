@@ -11,4 +11,5 @@ python-dotenv
 requests
 pytest
 pytest-cov
-rich
+richopenai
+groq
