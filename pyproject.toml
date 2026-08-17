@@ -1,0 +1,18 @@
+[project]
+name = "aegis-data-reliability-platform"
+version = "0.1.0"
+description = "AI-powered Data Reliability and Operations Control Tower"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true

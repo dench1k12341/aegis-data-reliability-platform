@@ -1,0 +1,59 @@
+# Virtual environments
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment / secrets
+.env
+*.env
+!.env.example
+
+# Generated datasets
+data/raw/
+data/bronze/
+data/silver/
+data/gold/
+
+# Local databases
+*.duckdb
+*.db
+*.sqlite
+*.sqlite3
+
+# Power BI generated data
+powerbi/data/
+
+# Generated artifacts
+artifacts/*.csv
+artifacts/*.parquet
+artifacts/*.json
+artifacts/*.html
+
+# Logs
+logs/
+*.log
+
+# dbt generated files
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+~$*

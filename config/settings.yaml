@@ -1,0 +1,50 @@
+project:
+  name: Aegis
+  environment: development
+  random_seed: 42
+
+simulation:
+  mode: dev
+
+  dev:
+    customers: 10000
+    orders: 25000
+    shipments: 22000
+    tracking_events: 150000
+    support_cases: 4000
+    app_events: 200000
+
+  full:
+    customers: 150000
+    orders: 500000
+    shipments: 450000
+    tracking_events: 3000000
+    support_cases: 75000
+    app_events: 5000000
+
+network:
+  countries: 21
+  warehouses: 30
+  carriers: 10
+  products: 5000
+
+data_quality:
+  enabled: true
+
+  thresholds:
+    completeness_warning: 0.98
+    uniqueness_warning: 0.995
+    freshness_hours: 24
+    volume_deviation_pct: 30
+
+anomaly_detection:
+  enabled: true
+  contamination: 0.02
+  zscore_threshold: 3.0
+
+paths:
+  raw: data/raw
+  bronze: data/bronze
+  silver: data/silver
+  gold: data/gold
+  artifacts: artifacts
