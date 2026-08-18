@@ -1,0 +1,119 @@
+﻿version: 2
+
+sources:
+  - name: bronze
+    description: >
+      Source-aligned operational datasets received by Aegis
+      after incident injection. These tables represent the data
+      available to downstream observability and analytics layers.
+
+    schema: bronze
+
+    tables:
+      - name: customers
+        description: Customer master data.
+        columns:
+          - name: customer_id
+            tests:
+              - not_null
+              - unique
+
+      - name: products
+        description: Product master data.
+        columns:
+          - name: product_id
+            tests:
+              - not_null
+              - unique
+
+      - name: warehouses
+        description: European logistics warehouse master data.
+        columns:
+          - name: warehouse_id
+            tests:
+              - not_null
+              - unique
+
+      - name: carriers
+        description: Carrier master data.
+        columns:
+          - name: carrier_id
+            tests:
+              - not_null
+              - unique
+
+      - name: orders
+        description: Commerce orders.
+        columns:
+          - name: order_id
+            tests:
+              - not_null
+              - unique
+
+          - name: customer_id
+            tests:
+              - not_null
+
+      - name: order_items
+        description: Individual products and quantities contained in orders.
+        columns:
+          - name: order_item_id
+            tests:
+              - not_null
+              - unique
+
+          - name: order_id
+            tests:
+              - not_null
+
+      - name: payments
+        description: Payment transactions linked to orders.
+        columns:
+          - name: payment_id
+            tests:
+              - not_null
+              - unique
+
+          - name: order_id
+            tests:
+              - not_null
+
+      - name: shipments
+        description: Shipment lifecycle and delivery performance data.
+        columns:
+          - name: shipment_id
+            tests:
+              - not_null
+              - unique
+
+          - name: order_id
+            tests:
+              - not_null
+
+      - name: tracking_events
+        description: Parcel scan and movement events.
+        columns:
+          - name: event_id
+            tests:
+              - not_null
+              - unique
+
+          - name: shipment_id
+            tests:
+              - not_null
+
+      - name: support_cases
+        description: Customer support interactions linked to operational issues.
+        columns:
+          - name: case_id
+            tests:
+              - not_null
+              - unique
+
+      - name: app_events
+        description: Product and purchase telemetry observed by Aegis.
+        columns:
+          - name: event_id
+            tests:
+              - not_null
+              - unique

@@ -1,0 +1,135 @@
+﻿version: 2
+
+models:
+  - name: stg_customers
+    description: Clean customer master staging model.
+    columns:
+      - name: customer_id
+        description: Unique customer identifier.
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_segment
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - Consumer
+                  - SMB
+                  - Enterprise
+
+  - name: stg_orders
+    description: Standardized commerce orders.
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        tests:
+          - not_null
+
+      - name: order_status
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - Completed
+                  - Returned
+                  - Cancelled
+                  - Pending
+
+  - name: stg_payments
+    description: Standardized payment transactions.
+    columns:
+      - name: payment_id
+        tests:
+          - not_null
+          - unique
+
+      - name: order_id
+        tests:
+          - not_null
+
+      - name: payment_status
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - Paid
+                  - Refunded
+                  - Failed
+                  - Pending
+
+  - name: stg_shipments
+    description: Standardized logistics shipment records.
+    columns:
+      - name: shipment_id
+        tests:
+          - not_null
+          - unique
+
+      - name: order_id
+        tests:
+          - not_null
+
+      - name: carrier_id
+        tests:
+          - not_null
+
+      - name: shipment_status
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - Delivered
+                  - Delayed
+                  - In Transit
+                  - Lost
+
+  - name: stg_support_cases
+    description: Standardized customer support records.
+    columns:
+      - name: case_id
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        tests:
+          - not_null
+
+      - name: priority
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - Low
+                  - Medium
+                  - High
+                  - Critical
+
+  - name: stg_app_events
+    description: Standardized product and telemetry events.
+    columns:
+      - name: event_id
+        tests:
+          - not_null
+          - unique
+
+      - name: event_type
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - session_start
+                  - product_view
+                  - category_view
+                  - search
+                  - add_to_cart
+                  - checkout_started
+                  - purchase
+                  - payment_failed
+                  - checkout_pending

@@ -1,0 +1,8 @@
+﻿aegis_data_reliability:
+  target: dev
+
+  outputs:
+    dev:
+      type: duckdb
+      path: "data/warehouse/aegis.duckdb"
+      threads: 4

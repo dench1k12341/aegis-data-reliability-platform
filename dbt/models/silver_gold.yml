@@ -1,0 +1,98 @@
+﻿version: 2
+
+models:
+  - name: silver_orders
+    description: >
+      Curated order-level analytical table derived from staged commerce data.
+    columns:
+      - name: order_id
+        description: Unique order identifier.
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        tests:
+          - not_null
+
+      - name: order_date
+        tests:
+          - not_null
+
+  - name: silver_shipments
+    description: >
+      Curated shipment-level operational table used for logistics analytics.
+    columns:
+      - name: shipment_id
+        description: Unique shipment identifier.
+        tests:
+          - not_null
+          - unique
+
+      - name: order_id
+        tests:
+          - not_null
+
+      - name: shipment_date
+        tests:
+          - not_null
+
+  - name: silver_support_cases
+    description: >
+      Curated support case table used to analyze SLA, escalation and CSAT.
+    columns:
+      - name: case_id
+        description: Unique support case identifier.
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        tests:
+          - not_null
+
+      - name: case_date
+        tests:
+          - not_null
+
+  - name: gold_commerce_daily
+    description: >
+      Daily commerce KPI mart containing order volume,
+      revenue and average order value.
+    columns:
+      - name: report_date
+        tests:
+          - not_null
+          - unique
+
+      - name: orders
+        tests:
+          - not_null
+
+  - name: gold_logistics_daily
+    description: >
+      Daily logistics KPI mart containing shipment volume,
+      delay rate, SLA performance and network load.
+    columns:
+      - name: report_date
+        tests:
+          - not_null
+          - unique
+
+      - name: shipments
+        tests:
+          - not_null
+
+  - name: gold_support_daily
+    description: >
+      Daily customer support KPI mart containing case volume,
+      support SLA, CSAT and escalation rate.
+    columns:
+      - name: report_date
+        tests:
+          - not_null
+          - unique
+
+      - name: support_cases
+        tests:
+          - not_null
