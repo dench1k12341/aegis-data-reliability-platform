@@ -1,4 +1,5 @@
 import duckdb
+import pandas as pd
 
 from src.utils.config import PROJECT_ROOT
 
@@ -18,6 +19,77 @@ SQL_PATH = (
 )
 
 
+BUSINESS_INCIDENTS_PATH = (
+    PROJECT_ROOT
+    / "artifacts"
+    / "business_incidents.csv"
+)
+
+
+def load_business_incidents(
+    connection,
+):
+    if not BUSINESS_INCIDENTS_PATH.exists():
+        raise FileNotFoundError(
+            "business_incidents.csv not found. "
+            "Run business anomaly detection first."
+        )
+
+    df = pd.read_csv(
+        BUSINESS_INCIDENTS_PATH
+    )
+
+    required_columns = {
+        "candidate_incident_id",
+        "classification",
+        "warehouse_id",
+        "start_date",
+        "end_date",
+        "anomaly_score",
+    }
+
+    missing_columns = (
+        required_columns
+        - set(df.columns)
+    )
+
+    if missing_columns:
+        raise ValueError(
+            "business_incidents.csv is missing "
+            f"required columns: "
+            f"{sorted(missing_columns)}"
+        )
+
+    df["start_date"] = pd.to_datetime(
+        df["start_date"]
+    ).dt.date
+
+    df["end_date"] = pd.to_datetime(
+        df["end_date"]
+    ).dt.date
+
+    connection.register(
+        "business_incidents_df",
+        df,
+    )
+
+    connection.execute(
+        """
+        CREATE OR REPLACE TABLE
+            meta.business_incidents
+        AS
+        SELECT *
+        FROM business_incidents_df
+        """
+    )
+
+    connection.unregister(
+        "business_incidents_df"
+    )
+
+    return len(df)
+
+
 def main():
     print("=" * 72)
     print(
@@ -32,6 +104,20 @@ def main():
     )
 
     try:
+        print()
+        print(
+            "Loading final business incidents..."
+        )
+
+        incident_count = load_business_incidents(
+            connection
+        )
+
+        print(
+            f"Business incidents:    "
+            f"{incident_count}"
+        )
+
         print()
         print(
             "Running 02_logistics_performance.sql..."
