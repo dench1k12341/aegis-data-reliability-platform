@@ -1,63 +1,71 @@
-# Virtual environments
+# Python environments and build output
 .venv/
 venv/
-
-# Python
+env/
 __pycache__/
 *.py[cod]
 *.pyd
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .coverage
+.coverage.*
+coverage.xml
 htmlcov/
+build/
+dist/
+*.egg-info/
 
-# Environment / secrets
+# Environment files and secrets
 .env
-*.env
+.env.*
 !.env.example
+*.pem
+*.p12
+*.key
 
-# Generated datasets
+# Generated datasets and local databases
 data/raw/
 data/bronze/
 data/silver/
 data/gold/
-
-# Local databases
+data/warehouse/
 *.duckdb
 *.db
 *.sqlite
 *.sqlite3
 
-# Power BI generated data
-powerbi/data/
-
-# Generated artifacts
-artifacts/*.csv
-artifacts/*.parquet
-artifacts/*.json
-artifacts/*.html
-
-# Logs
+# Pipeline output and logs
+artifacts/
 logs/
 *.log
 
+# Power BI local/generated files
+*.pbix
+*.pbit
+powerbi/data/
+powerbi/project/
+powerbi/project-generated-backup/
+powerbi/build_aegis_report.py
+powerbi/hide_technical_fields.py
+powerbi/organize_measure_table.py
+
 # dbt generated files
+target/
 dbt/target/
 dbt/logs/
 dbt/dbt_packages/
+dbt/.user.yml
 
-# IDE
+# IDE and OS metadata
 .vscode/
 .idea/
-
-# OS
 .DS_Store
 Thumbs.db
+Desktop.ini
 
-# Temporary files
+# Temporary and backup files
 *.tmp
 *.temp
-~$*artifacts/*.md
-artifacts/*.md
-
-dbt/.user.yml
-target/
+*.bak
+~$*

@@ -1202,28 +1202,28 @@ def main():
         print(
             f"Delay rate:        "
             f"{baseline['delay_pct']:.2f}% "
-            f"→ "
+            f"-> "
             f"{incident['delay_pct']:.2f}%"
         )
 
         print(
             f"SLA rate:          "
             f"{baseline['sla_pct']:.2f}% "
-            f"→ "
+            f"-> "
             f"{incident['sla_pct']:.2f}%"
         )
 
         print(
             f"Average load:      "
             f"{baseline['avg_load_pct']:.2f}% "
-            f"→ "
+            f"-> "
             f"{incident['avg_load_pct']:.2f}%"
         )
 
         print(
             f"Transit time:      "
             f"{baseline['avg_transit_hours']:.2f} h "
-            f"→ "
+            f"-> "
             f"{incident['avg_transit_hours']:.2f} h"
         )
 
@@ -1268,7 +1268,7 @@ def main():
             print(
                 f"Support SLA:       "
                 f"{support_before['sla_pct']:.2f}% "
-                f"→ "
+                f"-> "
                 f"{support_after['sla_pct']:.2f}%"
             )
 
@@ -1283,7 +1283,7 @@ def main():
             print(
                 f"Average CSAT:      "
                 f"{support_before['avg_csat']:.2f} "
-                f"→ "
+                f"-> "
                 f"{support_after['avg_csat']:.2f}"
             )
 

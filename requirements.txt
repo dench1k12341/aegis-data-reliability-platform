@@ -9,6 +9,7 @@ pydantic
 pyyaml
 python-dotenv
 requests
+dbt-duckdb
 pytest
 pytest-cov
 rich

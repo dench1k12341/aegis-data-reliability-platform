@@ -1,5 +1,8 @@
 ﻿name: Aegis CI
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
@@ -12,6 +15,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
@@ -21,6 +25,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements.txt
 
       - name: Upgrade pip
         run: |
@@ -28,11 +34,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          python -m pip install -r requirements.txt
 
       - name: Run full deterministic pipeline
         run: |
           python -m src.pipeline.run_all
+
+      - name: Build and test dbt models
+        run: |
+          dbt build --profiles-dir dbt
 
       - name: Run regression tests
         run: |
