@@ -508,10 +508,10 @@ def build_business_records(
         business_impact = (
             f"{shipments} shipments evaluated; "
             f"delay rate "
-            f"{delay_before:.2f}% → "
+            f"{delay_before:.2f}% -> "
             f"{delay_after:.2f}%; "
             f"network load "
-            f"{load_before:.2f}% → "
+            f"{load_before:.2f}% -> "
             f"{load_after:.2f}%; "
             f"{support_cases} support cases affected."
         )
