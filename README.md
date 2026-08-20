@@ -1,7 +1,7 @@
 <h1 align="center">Aegis Data Reliability Platform</h1>
 
 <p align="center">
-  An end-to-end analytics engineering portfolio project that separates bad data from real business incidents, explains root-cause evidence, and turns governed facts into executive decisions.
+  An end-to-end analytics engineering platform that separates bad data from real business incidents, explains root-cause evidence, and turns governed facts into executive decisions.
 </p>
 
 <p align="center">
@@ -13,6 +13,7 @@
   <img alt="dbt" src="https://img.shields.io/badge/dbt-FF694B?logo=dbt&logoColor=white">
   <img alt="Power BI" src="https://img.shields.io/badge/Power%20BI-F2C811?logo=powerbi&logoColor=111111">
   <img alt="pytest" src="https://img.shields.io/badge/tests-pytest-0A9EDC?logo=pytest&logoColor=white">
+  <img alt="License MIT" src="https://img.shields.io/badge/License-MIT-green.svg">
 </p>
 
 <p align="center">
@@ -21,44 +22,115 @@
 
 ## Overview
 
-Aegis simulates a European commerce and logistics platform, injects controlled data and operational failures, and then detects them without reading the ground-truth incident file. The project brings together data generation, observability, reconciliation, anomaly scoring, root-cause analysis, incident classification, DuckDB warehousing, dbt models, contract tests, governed AI reporting, and a seven-page Power BI product.
+Most dashboards assume that the data underneath them is trustworthy.
 
-The central design question is:
+Aegis does not.
 
-> Is a KPI moving because the business changed, or because the data cannot be trusted?
+Before interpreting KPI movements, Aegis asks a more important question:
 
-Aegis answers that question before producing recommendations:
+> **Did the business change, or did the data break?**
 
-- <strong>DATA_INCIDENT</strong>: data trust failed; affected telemetry KPIs must be paused.
-- <strong>BUSINESS_INCIDENT</strong>: data trust passed; the operational anomaly is real and action can be taken.
+Aegis simulates a European commerce and logistics platform, injects controlled data and operational failures, and then detects them without reading the ground-truth incident file.
 
-## Key results
+The project combines data generation, observability, reconciliation, anomaly detection, root-cause analysis, incident classification, DuckDB warehousing, dbt transformations, automated testing, Power BI analytics, and grounded AI reporting.
 
-All values below are reproducible from the deterministic <code>dev</code> configuration and are asserted by the analytical contracts or captured in the governed evidence package.
+The result is a complete decision-intelligence workflow:
+
+```text
+KPI changes
+    ↓
+Can the underlying data be trusted?
+    ↓
+┌──────────────────────────────┐
+│                              │
+DATA TRUST FAILED        DATA TRUST PASSED
+│                              │
+Data incident            Business incident
+│                              │
+Do not trust KPI         Investigate operations
+│                              │
+Fix data pipeline        Root-cause analysis
+                               ↓
+                         Operational action
+```
+
+### Why this project matters
+
+A traditional dashboard can show that a KPI deteriorated.
+
+Aegis goes one step further by determining whether that deterioration is caused by:
+
+- broken telemetry or unreliable data,
+- or a real operational/business problem.
+
+This distinction prevents teams from reacting to false signals and helps decision-makers focus on the correct remediation path.
+
+---
+
+## Tech Stack
+
+| Area | Technologies |
+|---|---|
+| Data Engineering | Python, pandas, NumPy, PyArrow |
+| Analytics Warehouse | DuckDB, SQL |
+| Analytics Engineering | dbt Core, dbt-duckdb |
+| Data Quality | Reconciliation controls, completeness, uniqueness, freshness, volume and null checks |
+| Analytics | SQL, statistical anomaly detection, RCA scoring |
+| Machine Learning | scikit-learn, SciPy |
+| BI & Visualization | Microsoft Power BI, DAX |
+| AI | Groq, OpenAI-compatible LLMs, grounded prompt packs |
+| AI Safety Layer | Factual validation, evidence constraints, self-correction |
+| Testing | pytest, pytest-cov |
+| CI/CD | GitHub Actions |
+| Configuration | YAML, Pydantic, python-dotenv |
+| Version Control | Git, GitHub |
+
+---
+
+## Key Results
+
+All values below are reproducible from the deterministic `dev` configuration and are asserted by analytical contracts or captured in the governed evidence package.
 
 | Area | Verified result |
 |---|---|
 | Dataset | 25,000 orders, 22,000 shipments, 150,000 tracking events, 4,000 support cases |
 | Commerce trust | 25,000 orders reconciled with 0 payment mismatches |
-| Data incident | 7 affected days; 219 missing purchase events; 58.13% event coverage; 29.28% revenue capture |
-| Business incident | Warsaw hub; 27 shipment touches; 100% delay rate; 109.31% average network load |
-| Customer impact | 4 incident support cases; 0% support SLA; 3.25 average CSAT |
-| Incident registry | 2 incidents: 1 data incident and 1 business incident, each with an explicit trust state |
-| Governed AI | Factual validator caught a 6-vs-7-day duration error; one self-correction reduced warnings from 1 to 0 |
+| Data incident | 7 affected days, 219 missing purchase events, 58.13% event coverage, 29.28% revenue capture |
+| Business incident | Warsaw hub, 27 shipment touches, 100% delay rate, 109.31% average network load |
+| Customer impact | 4 incident support cases, 0% support SLA, 3.25 average CSAT |
+| Incident registry | 2 incidents: 1 data incident and 1 business incident |
+| RCA | Network Congestion / Warehouse Overload ranked as strongest explanatory factor |
+| Governed AI | Factual validator caught a 6-vs-7-day duration error and self-correction reduced warnings from 1 to 0 |
+| Regression testing | Warehouse and Gold-layer contracts validated through pytest |
+| CI | Deterministic pipeline, dbt build and regression tests run automatically in GitHub Actions |
 
-These are synthetic evaluation results, not production performance claims.
+> These are synthetic evaluation results, not production performance claims.
 
-## What the project demonstrates
+---
 
-- Deterministic multi-domain data generation with a fixed seed and two scale profiles.
-- Controlled incident injection while keeping ground truth isolated from the detection path.
-- Data quality controls for completeness, uniqueness, freshness, volume, nulls, and reconciliation.
-- Multi-metric operational anomaly scoring across delay, load, SLA, and transit-time changes.
-- Evidence-weighted root-cause hypotheses and a unified incident registry.
-- Bronze, Silver, and Gold analytical layers in DuckDB, with an additional dbt modeling and test layer.
-- Weighted KPI modeling and a disconnected incident-grain table for Power BI.
-- Evidence-only decision briefs, grounded LLM prompts, factual validation, and targeted self-correction.
-- Reproducible CI that rebuilds the pipeline, runs dbt models/tests, and verifies warehouse contracts.
+## What Aegis Demonstrates
+
+- Deterministic multi-domain data generation with fixed random seeds.
+- Commerce, logistics, support and product-event datasets.
+- Controlled incident injection.
+- Ground-truth isolation from the detection pipeline.
+- Data observability and reconciliation controls.
+- Blind detection of a purchase telemetry failure.
+- Operational KPI anomaly detection.
+- Root-cause hypothesis ranking.
+- Unified Data Incident vs Business Incident classification.
+- Bronze, Silver and Gold warehouse architecture.
+- DuckDB analytics warehouse.
+- dbt staging, Silver and Gold models.
+- dbt source and model tests.
+- Power BI executive and operational reporting.
+- Incident-level decision intelligence.
+- Grounded LLM reporting.
+- Automated factual validation.
+- Targeted AI self-correction.
+- End-to-end CI through GitHub Actions.
+
+---
 
 ## Architecture
 
@@ -66,204 +138,791 @@ These are synthetic evaluation results, not production performance claims.
   <img src="docs/architecture.svg" alt="Aegis platform architecture from source generation to Power BI and governed AI">
 </p>
 
-### Data flow
+### High-Level Data Flow
+
+```text
+Synthetic Sources
+      ↓
+RAW Baseline
+      ↓
+Incident Injection
+      ↓
+Bronze
+      ↓
+Data Observability
+      ↓
+Silver
+      ↓
+Business Anomaly Detection
+      ↓
+Root Cause Analysis
+      ↓
+Incident Classification
+      ↓
+Gold Analytics Marts
+      ↓
+Decision Intelligence
+      ↓
+Grounded AI
+      ↓
+Factual Validator
+      ↓
+Self-Correction
+      ↓
+Power BI / Executive Decision Layer
+```
+
+### Platform Layers
 
 | Layer | Responsibility | Main outputs |
 |---|---|---|
-| Generate | Create commerce, logistics, support, and product-event data | Local CSV/Parquet datasets |
-| Detect | Run quality controls, reconciliation, business anomaly scoring, RCA, and classification | Quality controls, anomaly evidence, incident registry |
-| Model | Load DuckDB Bronze, transform Silver entities, and build Gold KPI marts | <code>data/warehouse/aegis.duckdb</code> |
-| Decide | Build deterministic briefs and evidence-constrained prompt packs | Local incident briefs and prompt packs |
-| Consume | Export governed marts and visualize executive, operational, reliability, RCA, and AI views | Power BI-ready CSVs and report pages |
+| Generate | Create commerce, logistics, support and product-event data | Local Parquet datasets |
+| Inject | Introduce controlled data and business failures | Bronze incident datasets |
+| Observe | Run Data Quality and reconciliation controls | Data incident evidence |
+| Detect | Identify operational KPI anomalies | Business incident candidates |
+| Explain | Rank root-cause hypotheses | RCA evidence |
+| Classify | Separate Data Incidents from Business Incidents | Incident registry |
+| Model | Build Bronze, Silver and Gold analytical layers | DuckDB warehouse |
+| Transform | Create dbt staging, Silver and Gold models | Reviewable SQL lineage |
+| Decide | Build deterministic evidence-based decision briefs | Decision layer |
+| Ground | Build constrained AI prompt packs | Evidence-bound LLM inputs |
+| Validate | Check LLM output against governed evidence | Validation warnings |
+| Correct | Perform targeted correction when needed | Validated final report |
+| Consume | Export governed analytics | Power BI report |
 
-The default pipeline contains 20 deterministic steps and does not require an external AI provider.
+The default pipeline contains **20 deterministic steps** and does not require an external AI provider.
 
-## Power BI report
+---
 
-The report uses a shared date dimension, weighted percentage measures, six daily/domain marts, and a disconnected incident command-center table at incident grain. Detailed modeling guidance and DAX measures are documented in [powerbi/POWER_BI_MODEL.md](powerbi/POWER_BI_MODEL.md).
+## Core Incident Logic
 
-| 01 Executive Command Center | 02 Operations Control Tower |
-|---|---|
-| [![Executive Command Center](docs/screenshots/power-bi/01-executive-command-center.png)](docs/screenshots/power-bi/01-executive-command-center.png) | [![Operations Control Tower](docs/screenshots/power-bi/02-operations-control-tower.png)](docs/screenshots/power-bi/02-operations-control-tower.png) |
+Aegis uses Data Trust as the decision gate.
 
-| 03 Commerce & Revenue | 04 Customer Experience |
-|---|---|
-| [![Commerce and Revenue](docs/screenshots/power-bi/03-commerce-revenue.png)](docs/screenshots/power-bi/03-commerce-revenue.png) | [![Customer Experience](docs/screenshots/power-bi/04-customer-experience.png)](docs/screenshots/power-bi/04-customer-experience.png) |
+### Data Incident
 
-| 05 Data Reliability Center | 06 Incident & RCA Command Center |
-|---|---|
-| [![Data Reliability Center](docs/screenshots/power-bi/05-data-reliability-center.png)](docs/screenshots/power-bi/05-data-reliability-center.png) | [![Incident and RCA Command Center](docs/screenshots/power-bi/06-incident-rca-command-center.png)](docs/screenshots/power-bi/06-incident-rca-command-center.png) |
+```text
+KPI anomaly
+    ↓
+Data Quality / reconciliation fails
+    ↓
+DATA TRUST FAILED
+    ↓
+DATA INCIDENT
+    ↓
+Do not use affected KPI
+    ↓
+Investigate data pipeline
+```
 
-<p align="center">
-  <strong>07 AI Decision Assistant</strong><br>
-  <a href="docs/screenshots/power-bi/07-ai-decision-assistant.png">
-    <img src="docs/screenshots/power-bi/07-ai-decision-assistant.png" alt="AI Decision Assistant with grounding and self-correction status">
-  </a>
-</p>
+### Business Incident
 
-The Power BI binary and local project workspace are intentionally excluded from Git. Screenshots and the semantic-model documentation provide a lightweight, reviewable portfolio representation.
+```text
+KPI anomaly
+    ↓
+Data Quality controls pass
+    ↓
+DATA TRUST PASSED
+    ↓
+BUSINESS INCIDENT
+    ↓
+Root-cause analysis
+    ↓
+Operational intervention
+```
 
-## AI grounding and self-correction
+---
 
-AI is optional and is not used as an independent source of truth.
+## Detected Data Incident
 
-1. The deterministic pipeline creates an incident registry and decision brief.
-2. A prompt pack exposes only the validated evidence required for that incident.
-3. Guardrails prohibit external facts, invented metrics, invented causes, and claims that remediation already worked.
-4. The factual validator checks required facts, data-trust language, confidence framing, incident duration, unsupported numbers, and action claims.
-5. The Groq execution path performs one targeted correction when warnings are found, then validates the revised report again.
+A purchase-event telemetry failure was detected for:
 
-The included evaluation case demonstrates this loop: the initial report described a 7-day incident as 6 days; validation detected the mismatch, the correction pass fixed it, and final validation returned zero warnings.
+**08 Sep 2025 → 14 Sep 2025**
 
-The OpenAI runner also produces grounded reports and validation warnings. The current one-pass self-correction implementation is in <code>src/ai/run_decision_assistant_groq.py</code>.
+Validated evidence:
+
+| Metric | Result |
+|---|---:|
+| Expected purchase events | 523 |
+| Observed purchase events | 304 |
+| Missing events | 219 |
+| Event coverage | 58.13% |
+| Null purchase values | 136 |
+| Revenue capture | 29.28% |
+| Data Trust | FAILED |
+
+Operational order records remained available while purchase-event telemetry became incomplete.
+
+The decision layer therefore classified the event as:
+
+```text
+DATA_INCIDENT
+```
+
+Recommended decision:
+
+> Do not trust affected telemetry KPIs until the telemetry pipeline is repaired and reconciliation passes.
+
+---
+
+## Detected Business Incident
+
+A logistics performance incident was detected in:
+
+**Warsaw, Poland**
+
+Detected period:
+
+**18 Nov 2025 → 01 Dec 2025**
+
+Validated evidence:
+
+| Metric | Result |
+|---|---:|
+| Affected shipment touches | 27 |
+| Delay rate | 100.00% |
+| Delivery SLA | 0.00% |
+| Average network load | 109.31% |
+| Anomaly score | 98.63 |
+| Affected support cases | 4 |
+| Data Trust | PASSED |
+
+Because logistics Data Quality controls remained valid, Aegis classified the degradation as a real operational problem:
+
+```text
+BUSINESS_INCIDENT
+```
+
+---
+
+## Root Cause Analysis
+
+Evidence-weighted root-cause ranking for the Warsaw incident:
+
+| Hypothesis | Score |
+|---|---:|
+| Network Congestion / Warehouse Overload | 100.00 |
+| Network Seasonality | 40.63 |
+| Carrier-Specific Performance | 30.00 |
+| Route / Distance Mix | 5.04 |
+
+The strongest explanatory factor was:
+
+> **Network Congestion / Warehouse Overload**
+
+The reported confidence value belongs to the internal synthetic Aegis scoring framework and should not be interpreted as real-world model accuracy.
+
+---
+
+## Customer Impact
+
+The Warsaw logistics incident propagated into customer support metrics.
+
+| Metric | Non-Incident | Incident |
+|---|---:|---:|
+| Support SLA | 67.92% | 0.00% |
+| Average CSAT | 4.23 | 3.25 |
+| Escalation Rate | 12.39% | 25.00% |
+
+Incident deltas:
+
+```text
+Support SLA       -67.92 pp
+CSAT              -0.98
+Escalation Rate   +12.61 pp
+```
+
+This demonstrates how Aegis links operational failures to downstream customer impact.
+
+---
+
+## Power BI Report
+
+The Power BI semantic model uses:
+
+- a shared date dimension,
+- weighted percentage measures,
+- domain-specific Gold marts,
+- governed DAX measures,
+- a disconnected incident-level command-center table,
+- conditional formatting,
+- incident status panels,
+- report navigation,
+- reset-filter actions.
+
+Detailed modeling guidance and DAX definitions are documented in:
+
+[powerbi/POWER_BI_MODEL.md](powerbi/POWER_BI_MODEL.md)
+
+### 01 Executive Command Center
+
+[![Executive Command Center](docs/screenshots/power-bi/01-executive-command-center.png)](docs/screenshots/power-bi/01-executive-command-center.png)
+
+Executive view of orders, shipments, revenue, delivery SLA and incident state.
+
+---
+
+### 02 Operations Control Tower
+
+[![Operations Control Tower](docs/screenshots/power-bi/02-operations-control-tower.png)](docs/screenshots/power-bi/02-operations-control-tower.png)
+
+Operational logistics KPIs, city/carrier rankings, network load and incident-level operational detail.
+
+---
+
+### 03 Commerce & Revenue
+
+[![Commerce and Revenue](docs/screenshots/power-bi/03-commerce-revenue.png)](docs/screenshots/power-bi/03-commerce-revenue.png)
+
+Trusted operational revenue, order trends, customer segments, countries, channels and payment performance.
+
+---
+
+### 04 Customer Experience
+
+[![Customer Experience](docs/screenshots/power-bi/04-customer-experience.png)](docs/screenshots/power-bi/04-customer-experience.png)
+
+Support SLA, CSAT, escalation, root causes and incident-vs-normal customer impact.
+
+---
+
+### 05 Data Reliability Center
+
+[![Data Reliability Center](docs/screenshots/power-bi/05-data-reliability-center.png)](docs/screenshots/power-bi/05-data-reliability-center.png)
+
+Expected-vs-observed event reconciliation, missing events, revenue capture and Data Trust status.
+
+---
+
+### 06 Incident & RCA Command Center
+
+[![Incident and RCA Command Center](docs/screenshots/power-bi/06-incident-rca-command-center.png)](docs/screenshots/power-bi/06-incident-rca-command-center.png)
+
+Unified Data Incident and Business Incident view with root-cause ranking and decision path.
+
+---
+
+### 07 AI Decision Assistant
+
+[![AI Decision Assistant](docs/screenshots/power-bi/07-ai-decision-assistant.png)](docs/screenshots/power-bi/07-ai-decision-assistant.png)
+
+Validated evidence, grounded AI executive reporting and factual validation status.
+
+---
+
+## AI Grounding and Self-Correction
+
+AI is optional and is **not used as an independent source of truth**.
+
+The analytical pipeline remains authoritative.
+
+```text
+Validated Evidence
+      ↓
+Decision Brief
+      ↓
+Grounded LLM
+      ↓
+Factual Validator
+      ↓
+Self-Correction
+      ↓
+Validated Executive Report
+```
+
+The workflow:
+
+1. The deterministic pipeline creates an incident registry.
+2. A deterministic decision brief is generated from validated evidence.
+3. A grounded prompt exposes only incident-specific evidence.
+4. Guardrails prohibit invented metrics, root causes and unsupported claims.
+5. The LLM generates an executive explanation.
+6. A factual validator compares the output against governed evidence.
+7. If warnings exist, one targeted correction pass is executed.
+8. The corrected report is validated again.
+
+### Demonstrated validation case
+
+For `AEGIS-INC-001`, the initial AI response described the incident as a six-day window.
+
+The actual incident dates cover seven calendar days.
+
+The validator detected the inconsistency:
+
+```text
+Initial warnings: 1
+```
+
+Self-correction was executed:
+
+```text
+Self-correction: Completed
+```
+
+Final result:
+
+```text
+Final warnings: 0
+Grounding status: PASSED
+```
+
+For the business incident, no correction was required.
+
+```text
+Initial warnings: 0
+Self-correction: Not required
+Final warnings: 0
+Grounding status: PASSED
+```
+
+The live demonstration currently uses:
+
+```text
+Provider: Groq
+Model: openai/gpt-oss-120b
+```
+
+External knowledge restrictions are enforced through the grounding and prompt policy; they should not be interpreted as network-level isolation.
+
+---
+
+## Data Architecture
+
+Aegis uses a layered analytical architecture.
+
+### RAW
+
+Clean deterministic baseline data before incidents.
+
+### Bronze
+
+Source-aligned datasets after incident injection.
+
+Bronze represents what the analytical platform actually receives.
+
+### Silver
+
+Validated and business-ready analytical entities.
+
+Examples:
+
+```text
+orders_enriched
+shipments_enriched
+support_enriched
+app_funnel_daily
+daily_purchase_reconciliation
+warehouse_anomaly_windows
+```
+
+### Gold
+
+Business-facing analytical marts.
+
+Examples:
+
+```text
+executive_daily
+logistics_performance
+data_reliability_daily
+customer_experience
+commerce_performance
+incident_command_center
+```
+
+---
+
+## DuckDB Analytics Warehouse
+
+The local warehouse is built in:
+
+```text
+data/warehouse/aegis.duckdb
+```
+
+Schemas:
+
+```text
+bronze
+silver
+gold
+meta
+```
+
+The database itself is generated locally and intentionally excluded from Git.
+
+---
+
+## dbt Analytics Engineering Layer
+
+The repository includes a dbt project for SQL lineage, model documentation and automated testing.
+
+Current dbt structure:
+
+```text
+sources
+   ↓
+staging
+   ↓
+silver
+   ↓
+gold
+```
+
+Run:
+
+```powershell
+dbt build --profiles-dir dbt
+```
+
+The dbt project currently contains:
+
+- 11 sources,
+- 12 models,
+- source-level tests,
+- staging tests,
+- Silver model tests,
+- Gold model tests.
+
+A validated local build executes:
+
+```text
+83 resources/tests successfully
+```
+
+Generate lineage documentation:
+
+```powershell
+dbt docs generate --profiles-dir dbt
+dbt docs serve --profiles-dir dbt
+```
+
+---
 
 ## Setup
 
 ### Prerequisites
 
-- Python 3.12 or newer
-- Power BI Desktop only if you want to recreate the report from the exported data and model guide
-- An API key only if you explicitly run a live AI provider
+- Python 3.12+
+- Git
+- Power BI Desktop only if recreating the dashboard
+- Optional API key for live AI execution
 
-### Install
+### Clone
 
-From the repository root:
+```powershell
+git clone https://github.com/dench1k12341/aegis-data-reliability-platform.git
+cd aegis-data-reliability-platform
+```
 
-~~~powershell
+### Create environment
+
+```powershell
 python -m venv .venv
-.venv\Scripts\Activate.ps1
+.\.venv\Scripts\Activate.ps1
+```
+
+### Install dependencies
+
+```powershell
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
-~~~
+```
 
-On macOS or Linux, activate the environment with <code>source .venv/bin/activate</code>.
+No secrets are required for the deterministic pipeline.
 
-No secrets are required for the deterministic pipeline. For optional live AI calls, create a local environment file:
+For optional live AI execution:
 
-~~~powershell
+```powershell
 Copy-Item .env.example .env
-~~~
+```
 
-Then add either <code>GROQ_API_KEY</code> or <code>OPENAI_API_KEY</code>. The local <code>.env</code> file is ignored by Git.
+Then add either:
 
-## Run
+```text
+GROQ_API_KEY
+```
+
+or:
+
+```text
+OPENAI_API_KEY
+```
+
+The local `.env` file is ignored by Git.
+
+---
+
+## Running the Platform
 
 ### Full deterministic pipeline
 
-~~~powershell
+```powershell
 python -m src.pipeline.run_all
-~~~
+```
 
-Useful controls:
+The pipeline runs 20 stages from data generation through Gold analytics marts.
 
-~~~powershell
-# Show every pipeline step
+### List pipeline steps
+
+```powershell
 python -m src.pipeline.run_all --list
+```
 
-# Resume from a numbered step
+### Resume from a specific step
+
+Example:
+
+```powershell
 python -m src.pipeline.run_all --from-step 13
+```
 
-# Run the complete pipeline and the optional live Groq report step
-python -m src.pipeline.run_all --with-ai
-~~~
+### Optional Groq AI execution
 
-To use the OpenAI report path after prompt packs have been generated:
+```powershell
+python -m src.ai.run_decision_assistant_groq
+```
 
-~~~powershell
+### Optional OpenAI execution
+
+```powershell
 python -m src.ai.run_decision_assistant
-~~~
+```
 
-### Export for Power BI
+The OpenAI runner requires an account with available API quota.
 
-Run the pipeline first, then export the governed Gold tables and date dimension:
+---
 
-~~~powershell
+## Power BI Export
+
+Generate the governed Power BI datasets:
+
+```powershell
 python -m src.warehouse.export_powerbi
 python -m src.warehouse.export_powerbi_date
-~~~
+```
 
-The generated CSV files are written to <code>powerbi/data/</code> and remain local.
+Generated files are written to:
 
-## dbt
+```text
+powerbi/data/
+```
 
-The repository includes a separate dbt project for reviewable SQL lineage and model-level tests. It reads the DuckDB Bronze tables created by the deterministic pipeline.
+The directory remains local and is ignored by Git.
 
-~~~powershell
-python -m src.pipeline.run_all
-dbt build --profiles-dir dbt
-~~~
+---
 
-To inspect the generated lineage locally:
+## Testing
 
-~~~powershell
-dbt docs generate --profiles-dir dbt
-dbt docs serve --profiles-dir dbt
-~~~
+Run all regression tests:
 
-The dbt project covers source tests, accepted-value checks, uniqueness/not-null contracts, Silver entities, and daily Gold commerce, logistics, and support marts.
-
-## Testing and CI
-
-Run the regression suite against the generated warehouse:
-
-~~~powershell
+```powershell
 pytest -v
-~~~
+```
 
-Optional coverage:
+The current regression suite verifies:
 
-~~~powershell
+- expected schemas,
+- Bronze table inventory,
+- deterministic row counts,
+- Silver model existence,
+- uniqueness of business keys,
+- payment reconciliation,
+- purchase-event reconciliation,
+- detection of the data incident,
+- detection of the Warsaw business anomaly,
+- Gold mart contracts,
+- customer-impact reconciliation,
+- incident command-center consistency,
+- warehouse metadata.
+
+Example validated result:
+
+```text
+17 passed
+```
+
+Coverage can also be executed with:
+
+```powershell
 pytest --cov=src --cov-report=term-missing
-~~~
+```
 
-The [GitHub Actions workflow](.github/workflows/ci.yml) runs on pushes and pull requests to <code>main</code>. It:
+---
 
-1. installs the Python and dbt dependencies;
-2. rebuilds the deterministic pipeline from scratch;
-3. runs <code>dbt build</code> with model and data tests;
-4. executes the warehouse and Gold-layer regression contracts.
+## CI/CD
 
-The Python tests verify schema inventory, Bronze row counts, key uniqueness, payment and purchase-event reconciliation, the injected incident windows, Gold KPI totals, and the final two-incident command-center contract.
+Aegis includes a GitHub Actions workflow:
 
-## Repository structure
+```text
+.github/workflows/ci.yml
+```
 
-~~~text
+It executes automatically on:
+
+```text
+push → main
+pull_request → main
+```
+
+The workflow:
+
+```text
+Checkout repository
+      ↓
+Set up Python
+      ↓
+Install dependencies
+      ↓
+Run deterministic Aegis pipeline
+      ↓
+dbt build
+      ↓
+pytest regression tests
+```
+
+This verifies that the repository can rebuild its analytical state from source code.
+
+---
+
+## Repository Structure
+
+```text
 .
-├── .github/workflows/ci.yml       # end-to-end CI
-├── config/settings.yaml           # seed, scale, thresholds, local paths
-├── dbt/                           # staging, Silver, Gold, and dbt tests
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│
+├── config/
+│   └── settings.yaml
+│
+├── dbt/
+│   ├── models/
+│   │   ├── staging/
+│   │   ├── silver/
+│   │   └── gold/
+│   └── profiles.yml
+│
 ├── docs/
-│   ├── architecture.svg           # platform architecture
-│   └── screenshots/power-bi/      # seven curated report screenshots
-├── powerbi/POWER_BI_MODEL.md      # model relationships and DAX guidance
+│   ├── architecture.svg
+│   └── screenshots/
+│       └── power-bi/
+│
+├── powerbi/
+│   └── POWER_BI_MODEL.md
+│
 ├── sql/
-│   ├── silver/                    # core SQL transformations
-│   └── gold/                      # governed analytical marts
+│   ├── silver/
+│   └── gold/
+│
 ├── src/
-│   ├── generate/                  # synthetic source generation
-│   ├── incidents/                 # injection and classification
-│   ├── quality/                   # data observability controls
-│   ├── anomaly/                   # operational anomaly scoring
-│   ├── rca/                       # root-cause hypothesis ranking
-│   ├── decision/                  # deterministic decision briefs
-│   ├── ai/                        # grounding, validation, provider runners
-│   ├── warehouse/                 # DuckDB layers and Power BI exports
-│   └── pipeline/run_all.py        # pipeline orchestration
-├── tests/                         # warehouse and Gold contracts
-├── .env.example                   # secret-free optional AI configuration
+│   ├── generate/
+│   ├── incidents/
+│   ├── quality/
+│   ├── anomaly/
+│   ├── rca/
+│   ├── decision/
+│   ├── ai/
+│   ├── warehouse/
+│   └── pipeline/
+│
+├── tests/
+│   ├── test_gold_contracts.py
+│   └── test_warehouse_contracts.py
+│
+├── .env.example
+├── .gitignore
 ├── dbt_project.yml
+├── LICENSE
 ├── pyproject.toml
-└── requirements.txt
-~~~
+├── requirements.txt
+└── README.md
+```
 
-Generated datasets, databases, logs, AI responses, QA captures, local Power BI projects, PBIX/PBIT binaries, caches, and environment files are excluded through <code>.gitignore</code>.
+---
+
+## Generated Files Excluded from Git
+
+The repository intentionally excludes:
+
+```text
+.venv/
+.env
+data/raw/
+data/bronze/
+data/silver/
+data/gold/
+data/warehouse/
+artifacts/
+logs/
+*.duckdb
+*.db
+*.sqlite
+*.pbix
+*.pbit
+powerbi/data/
+target/
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+IDE metadata
+temporary files
+```
+
+This keeps the repository lightweight and prevents generated data, secrets and local application files from being committed.
+
+---
 
 ## Limitations
 
-- All data and incidents are synthetic and intentionally shaped for a deterministic portfolio evaluation.
-- Root-cause scores are evidence-weighted hypotheses, not proof of causality.
-- The platform runs as a local batch workflow on DuckDB; it does not include production orchestration, streaming ingestion, access control, alert routing, or cloud deployment.
-- The factual validator is a rules-based safeguard, not a formal guarantee that every possible hallucination will be detected.
-- Live LLM wording and model availability can vary by provider; the core pipeline remains provider-independent.
-- Power BI screenshots are static, and the binary report is intentionally not versioned in this repository.
-- Reported confidence is internal to the synthetic Aegis framework and should not be interpreted as real-world model accuracy.
+Aegis is a portfolio-grade synthetic analytical system, not a production deployment.
+
+Important limitations:
+
+- All source data is synthetic.
+- Injected incidents are deterministic evaluation scenarios.
+- Root-cause scores represent evidence-weighted hypotheses, not proof of causality.
+- Model Confidence belongs to the internal Aegis scoring framework and is not real-world accuracy.
+- The project uses a local DuckDB warehouse rather than a distributed production platform.
+- Production orchestration, streaming ingestion, IAM, alert routing and cloud infrastructure are outside the project scope.
+- The factual validator is rule-based and cannot guarantee detection of every possible hallucination.
+- Live LLM responses may vary by provider or model version.
+- External knowledge restrictions are enforced through prompt policy, not through network-level isolation.
+- The Power BI binary is intentionally excluded from source control.
+- Screenshots provide a reviewable representation of the dashboard.
+
+---
+
+## Design Principles
+
+Aegis follows several core principles:
+
+```text
+Analytics first, AI second.
+
+Trust the data before interpreting the KPI.
+
+Separate data failures from business failures.
+
+Keep ground truth isolated from detection.
+
+Use AI to explain validated evidence,
+not to invent analytical conclusions.
+
+Make every important result reproducible.
+```
+
+---
+
+## License
+
+This project is released under the [MIT License](LICENSE).
+
+---
+
+## Author
+
+**Denys Dolhov**
+
+Data Analytics • Data Quality • Analytics Engineering • Operations Intelligence
+
+GitHub: [dench1k12341](https://github.com/dench1k12341)
